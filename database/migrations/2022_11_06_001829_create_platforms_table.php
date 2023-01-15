@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('platforms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }
