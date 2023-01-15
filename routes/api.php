@@ -24,5 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('platform/create', [PlatformController::class, 'store'])->name('platform.create');
+    Route::get('platforms', [PlatformController::class, 'index'])->name('platform.index');
+    Route::post('platforms/create', [PlatformController::class, 'store'])->name('platform.create');
 });
