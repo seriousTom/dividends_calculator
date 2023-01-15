@@ -19,8 +19,13 @@ class PlatformPolicy
     {
 
     }
-    
+
     public function edit(User $user, Platform $platform)
+    {
+        return $platform->user_id == $user->id;
+    }
+
+    public function delete(User $user, Platform $platform)
     {
         return $platform->user_id == $user->id;
     }

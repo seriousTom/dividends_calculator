@@ -42,4 +42,13 @@ class PlatformController extends Controller
 
         return new PlatformResource($platform);
     }
+
+    public function delete(Platform $platform)
+    {
+        $this->authorize('delete', $platform);
+
+        $platform->delete();
+
+        return response()->json(['success' => true, 'message' => 'Deleted']);
+    }
 }
