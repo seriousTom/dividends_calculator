@@ -26,4 +26,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
     Route::get('platforms', [PlatformController::class, 'index'])->name('platform.index');
     Route::post('platforms/create', [PlatformController::class, 'store'])->name('platform.create');
+    Route::put('platforms/{platform}/edit', [PlatformController::class, 'update'])->name('platform.update');
 });

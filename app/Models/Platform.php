@@ -16,22 +16,13 @@ class Platform extends Model
         'user_id'
     ];
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope('user', function (Builder $builder) {
-            $builder->where(function($q) {
-                $q->where('user_id', auth()->id())->orWhereNull('user_id');
-            });
-        });
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function scopeByUserId(Builder $builder, int $userId): Builder
+    {
+        return $builder->where('user_id', $userId)->orderBy('name', 'asc');
     }
 }
