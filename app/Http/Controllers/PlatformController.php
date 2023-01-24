@@ -43,6 +43,11 @@ class PlatformController extends Controller
         return new PlatformResource($platform);
     }
 
+    /**
+     * @param Platform $platform
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function delete(Platform $platform)
     {
         $this->authorize('delete', $platform);

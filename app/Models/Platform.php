@@ -25,4 +25,9 @@ class Platform extends Model
     {
         return $builder->where('user_id', $userId)->orderBy('name', 'asc');
     }
+
+    public function belongsToUser(User $user)
+    {
+        return $this->user_id == $user->id;
+    }
 }

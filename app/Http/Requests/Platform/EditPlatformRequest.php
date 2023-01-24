@@ -14,7 +14,6 @@ class EditPlatformRequest extends FormRequest
      */
     public function authorize()
     {
-        //it seems there is no point to use this because global scope are used to retrieve Platforms by logged-in user
         return auth()->user()->can('edit', $this->platform);
     }
 

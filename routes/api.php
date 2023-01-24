@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PassportAuthController;
 use App\Http\Controllers\PlatformController;
+use App\Http\Controllers\PortfolioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('platforms/create', [PlatformController::class, 'store'])->name('platform.create');
     Route::put('platforms/{platform}/edit', [PlatformController::class, 'update'])->name('platform.update');
     Route::delete('platforms/{platform}/delete', [PlatformController::class, 'delete'])->name('platform.delete');
+
+    Route::post('portfolios/create', [PortfolioController::class, 'store'])->name('portfolio.create');
 });
