@@ -30,5 +30,6 @@ Route::middleware('auth:api')->group(function () {
     Route::put('platforms/{platform}/edit', [PlatformController::class, 'update'])->name('platform.update');
     Route::delete('platforms/{platform}/delete', [PlatformController::class, 'delete'])->name('platform.delete');
 
+    Route::get('portfolios', [PortfolioController::class, 'index'])->name('portfolio.index');
     Route::post('portfolios/create', [PortfolioController::class, 'store'])->name('portfolio.create');
 });

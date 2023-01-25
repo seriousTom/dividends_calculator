@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
+    public function index()
+    {
+        $portfolios = Portfolio::byUserId(auth()->id())->get();
+
+        return PortfolioResource::collection($portfolios);
+    }
+
     public function store(CreatePortfolioRequest $request)
     {
         $portfolio = Portfolio::create($request->validated());
