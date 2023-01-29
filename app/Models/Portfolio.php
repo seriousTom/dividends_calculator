@@ -22,6 +22,11 @@ class Portfolio extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function platform()
+    {
+        return $this->belongsTo(Portfolio::class, 'platform_id', 'id');
+    }
+
     public function scopeByUserId(Builder $builder, int $userId): Builder
     {
         return $builder->where('user_id', $userId)->orderBy('name', 'asc');

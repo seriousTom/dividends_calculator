@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\Portfolio;
 
-use App\Models\Platform;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreatePortfolioRequest extends FormRequest
+class EditPortfolioRequest extends FormRequest
 {
     use ValidatePortfolioTrait;
 
@@ -17,7 +16,7 @@ class CreatePortfolioRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->can('edit', $this->portfolio);
     }
 
     /**
@@ -29,7 +28,7 @@ class CreatePortfolioRequest extends FormRequest
     {
         return [
             'name' => ['required', Rule::unique('portfolios')->where(function($q) {
-                $q->where('user_id', auth()->id());
+                $q->where('user_id', auth()->id())->where('id', '!=', $this->portfolio->id);
             })],
             'user_id' => ['required', 'exists:users,id'],
             'platform_id' => ['nullable', 'exists:platforms,id']

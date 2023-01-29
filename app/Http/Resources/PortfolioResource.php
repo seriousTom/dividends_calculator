@@ -18,6 +18,7 @@ class PortfolioResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'user' => new UserResource($this->whenLoaded('user')),
+            'platform' => new PlatformResource($this->whenLoaded('platform')),
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->created_at->format('Y-m-d'),
         ];

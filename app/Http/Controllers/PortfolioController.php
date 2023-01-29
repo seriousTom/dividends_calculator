@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Portfolio\CreatePortfolioRequest;
+use App\Http\Requests\Portfolio\EditPortfolioRequest;
 use App\Http\Resources\PortfolioResource;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class PortfolioController extends Controller
 {
     public function index()
     {
-        $portfolios = Portfolio::byUserId(auth()->id())->get();
+        $portfolios = Portfolio::byUserId(auth()->id())->with('platform')->get();
 
         return PortfolioResource::collection($portfolios);
     }
@@ -19,6 +20,13 @@ class PortfolioController extends Controller
     public function store(CreatePortfolioRequest $request)
     {
         $portfolio = Portfolio::create($request->validated());
+
+        return new PortfolioResource($portfolio);
+    }
+
+    public function update(Portfolio $portfolio, EditPortfolioRequest $request)
+    {
+        $portfolio->update($request->validated());
 
         return new PortfolioResource($portfolio);
     }

@@ -32,4 +32,5 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('portfolios', [PortfolioController::class, 'index'])->name('portfolio.index');
     Route::post('portfolios/create', [PortfolioController::class, 'store'])->name('portfolio.create');
+    Route::put('portfolios/{portfolio}/edit', [PortfolioController::class, 'update'])->name('portfolio.update');
 });
