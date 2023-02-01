@@ -30,4 +30,13 @@ class PortfolioController extends Controller
 
         return new PortfolioResource($portfolio);
     }
+
+    public function delete(Portfolio $portfolio)
+    {
+        $this->authorize('delete', $portfolio);
+
+        $portfolio->delete();
+
+        return response()->json(['success' => true, 'message' => 'Deleted']);
+    }
 }

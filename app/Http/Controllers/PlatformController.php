@@ -52,6 +52,10 @@ class PlatformController extends Controller
     {
         $this->authorize('delete', $platform);
 
+        if ($platform->hasPortfolios()) {
+            return response()->json(['success' => false, 'message' => 'Platform cannot be deleted because it is assigned to portfolios.'], 409);
+        }
+
         $platform->delete();
 
         return response()->json(['success' => true, 'message' => 'Deleted']);

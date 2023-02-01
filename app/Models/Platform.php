@@ -30,4 +30,14 @@ class Platform extends Model
     {
         return $this->user_id == $user->id;
     }
+
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class, 'platform_id', 'id');
+    }
+
+    public function hasPortfolios()
+    {
+        return $this->portfolios->count() > 0;
+    }
 }

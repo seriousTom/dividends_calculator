@@ -20,17 +20,17 @@ class PlatformPolicy
 
     }
 
-    public function select(User $user, Platform $platform)
+    public function select(User $user, Platform $platform): bool
     {
         return $platform->user_id == $user->id || empty($platform->user_id);
     }
 
-    public function edit(User $user, Platform $platform)
+    public function edit(User $user, Platform $platform): bool
     {
         return $platform->user_id == $user->id;
     }
 
-    public function delete(User $user, Platform $platform)
+    public function delete(User $user, Platform $platform): bool
     {
         return $platform->user_id == $user->id;
     }
