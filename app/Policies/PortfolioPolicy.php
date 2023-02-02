@@ -20,6 +20,11 @@ class PortfolioPolicy
         //
     }
 
+    public function show(User $user, Portfolio $portfolio): bool
+    {
+        return $portfolio->user_id == $user->id;
+    }
+
     public function edit(User $user, Portfolio $portfolio): bool
     {
         return $portfolio->user_id == $user->id;

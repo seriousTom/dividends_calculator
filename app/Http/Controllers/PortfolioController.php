@@ -17,6 +17,13 @@ class PortfolioController extends Controller
         return PortfolioResource::collection($portfolios);
     }
 
+    public function show(Portfolio $portfolio)
+    {
+        $this->authorize('show', $portfolio);
+
+        return new PortfolioResource($portfolio);
+    }
+
     public function store(CreatePortfolioRequest $request)
     {
         $portfolio = Portfolio::create($request->validated());

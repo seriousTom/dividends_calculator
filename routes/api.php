@@ -31,6 +31,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('platforms/{platform}/delete', [PlatformController::class, 'delete'])->name('platform.delete');
 
     Route::get('portfolios', [PortfolioController::class, 'index'])->name('portfolio.index');
+    Route::get('portfolios/{portfolio}', [PortfolioController::class, 'show'])->name('portfolio.show');
     Route::post('portfolios/create', [PortfolioController::class, 'store'])->name('portfolio.create');
     Route::put('portfolios/{portfolio}/edit', [PortfolioController::class, 'update'])->name('portfolio.update');
     Route::delete('portfolios/{portfolio}/delete', [PortfolioController::class, 'delete'])->name('portfolio.delete');
