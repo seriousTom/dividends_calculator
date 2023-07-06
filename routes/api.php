@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\PassportAuthController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\DividendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('portfolios/create', [PortfolioController::class, 'store'])->name('portfolio.create');
     Route::put('portfolios/{portfolio}/edit', [PortfolioController::class, 'update'])->name('portfolio.update');
     Route::delete('portfolios/{portfolio}/delete', [PortfolioController::class, 'delete'])->name('portfolio.delete');
+
+    Route::post('dividends/create', [DividendController::class, 'store'])->name('dividend.store');
 });
 
 Route::middleware(['auth:api', 'admin'])->group(function () {
