@@ -26,6 +26,7 @@ class CreateDividendRequest extends FormRequest
         return [
             'amount' => 'required|numeric',
             'taxes_amount' => 'required|numeric',
+            'currency_id' => 'required|exits:currencies,id',
             'company_id' => 'required|exists:companies,id',
             'date' => 'required|date'
         ];

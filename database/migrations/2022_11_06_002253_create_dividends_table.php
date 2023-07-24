@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->double('amount', null, 2)->unsigned();
             $table->double('taxes_amount', null, 2)->unsigned()->default(0);
+            $table->string('currency_id');
             $table->integer('user_id')->unsigned();
             $table->integer('company_id')->unsigned();
+            $table->integer('portfolio_id')->unsigned();
             $table->date('date');
             $table->timestamps();
         });

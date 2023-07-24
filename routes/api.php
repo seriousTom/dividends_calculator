@@ -38,7 +38,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put('portfolios/{portfolio}/edit', [PortfolioController::class, 'update'])->name('portfolio.update');
     Route::delete('portfolios/{portfolio}/delete', [PortfolioController::class, 'delete'])->name('portfolio.delete');
 
+    Route::get('dividends', [DividendController::class, 'index'])->name('dividend.index');
     Route::post('dividends/create', [DividendController::class, 'store'])->name('dividend.store');
+    Route::post('dividends/{dividend}/edit', [DividendController::class, 'update'])->name('dividend.update');
 });
 
 Route::middleware(['auth:api', 'admin'])->group(function () {

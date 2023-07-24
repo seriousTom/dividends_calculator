@@ -4,17 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Portfolio\CreatePortfolioRequest;
 use App\Http\Requests\Portfolio\EditPortfolioRequest;
+use App\Http\Resources\DividendResource;
 use App\Http\Resources\PortfolioResource;
+use App\Models\Dividend;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $portfolios = Portfolio::byUserId(auth()->id())->with('platform')->get();
+        $dividends = Dividend::byPortfolioId($request->portfolio_id)->paginate(1);
 
-        return PortfolioResource::collection($portfolios);
+        return response()->json([
+            'portfolios' => PortfolioResource::collection($portfolios),
+            'dividends' => DividendResource::collection($dividends)->resource
+
+        ]);
     }
 
     public function show(Portfolio $portfolio)
