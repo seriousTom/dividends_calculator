@@ -36,10 +36,10 @@ class Dividend extends Model
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
 
-    public function scopeByPortfolioId(Builder $builder, ?int $portfolioId = null): Builder
+    public function scopeByPortfolio(Builder $builder, ?Portfolio $portfolio = null): Builder
     {
-        if (!empty($portfolioId)) {
-            $builder->where('portfolio_id', $portfolioId);
+        if (!empty($portfolio)) {
+            $builder->where('portfolio_id', $portfolio->id);
         }
 
         return $builder;

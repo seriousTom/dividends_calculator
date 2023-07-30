@@ -14,14 +14,9 @@ class PortfolioController extends Controller
 {
     public function index(Request $request)
     {
-        $portfolios = Portfolio::byUserId(auth()->id())->with('platform')->get();
-        $dividends = Dividend::byPortfolioId($request->portfolio_id)->paginate(1);
+        $portfolios = Portfolio::with('platform')->get();
 
-        return response()->json([
-            'portfolios' => PortfolioResource::collection($portfolios),
-            'dividends' => DividendResource::collection($dividends)->resource
-
-        ]);
+        return PortfolioResource::collection($portfolios);
     }
 
     public function show(Portfolio $portfolio)
