@@ -7,6 +7,7 @@ use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\DividendController;
+use App\Http\Controllers\CurrencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('dividends/{portfolio?}', [DividendController::class, 'index'])->name('dividend.index');
     Route::post('dividends/create', [DividendController::class, 'store'])->name('dividend.store');
     Route::post('dividends/{dividend}/edit', [DividendController::class, 'update'])->name('dividend.update');
+
+    Route::get('companies', [\App\Http\Controllers\CompanyController::class, 'index'])->name('company.index');
+    Route::get('currencies', [CurrencyController::class, 'index'])->name('currency.index');
 });
 
 Route::middleware(['auth:api', 'admin'])->group(function () {

@@ -28,7 +28,10 @@ class CreateDividendRequest extends FormRequest
             'taxes_amount' => 'required|numeric',
             'currency_id' => 'required|exits:currencies,id',
             'company_id' => 'required|exists:companies,id',
+            'portfolio_id' => 'required|exits:porfolios,id',
             'date' => 'required|date'
         ];
     }
+
+    //todo:check if portfolio belongs to user
 }

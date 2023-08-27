@@ -21,6 +21,11 @@ class Platform extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function scopeAvailable(Builder $builder, int $userId): Builder
+    {
+        return $builder->where('user_id', $userId)->orWhereNull('user_id')->orderBy('name', 'asc');
+    }
+
     public function scopeByUserId(Builder $builder, int $userId): Builder
     {
         return $builder->where('user_id', $userId)->orderBy('name', 'asc');

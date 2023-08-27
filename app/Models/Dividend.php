@@ -18,6 +18,7 @@ class Dividend extends Model
         'currency_id',
         'user_id',
         'company_id',
+        'portfolio_id',
         'date'
     ];
 

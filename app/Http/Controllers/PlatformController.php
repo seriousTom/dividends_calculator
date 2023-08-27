@@ -15,7 +15,7 @@ class PlatformController extends Controller
      */
     public function index()
     {
-        $platforms = Platform::byUserId(auth()->id())->get();
+        $platforms = Platform::available(auth()->id())->get();
 
         return PlatformResource::collection($platforms);
     }
