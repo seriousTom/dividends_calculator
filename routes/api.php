@@ -41,7 +41,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('dividends/{portfolio?}', [DividendController::class, 'index'])->name('dividend.index');
     Route::post('dividends/create', [DividendController::class, 'store'])->name('dividend.store');
-    Route::post('dividends/{dividend}/edit', [DividendController::class, 'update'])->name('dividend.update');
+    Route::post('dividends/{portfolio}/create', [DividendController::class, 'storeMultiple'])->name('dividend.storeMultiple');
+    Route::put('dividends/{dividend}/edit', [DividendController::class, 'update'])->name('dividend.update');
 
     Route::get('companies', [\App\Http\Controllers\CompanyController::class, 'index'])->name('company.index');
     Route::get('currencies', [CurrencyController::class, 'index'])->name('currency.index');
