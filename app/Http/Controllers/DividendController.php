@@ -41,4 +41,13 @@ class DividendController extends Controller
     {
 
     }
+
+    public function delete(Dividend $dividend)
+    {
+        $this->authorize('delete', $dividend);
+
+        $dividend->delete();
+
+        return response()->json(['success' => true, 'message' => 'Deleted']);
+    }
 }

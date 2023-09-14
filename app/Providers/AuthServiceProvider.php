@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Dividend;
 use App\Models\Platform;
 use App\Models\Portfolio;
+use App\Policies\DividendPolicy;
 use App\Policies\PlatformPolicy;
 use App\Policies\PortfolioPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -20,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Platform::class => PlatformPolicy::class,
         Portfolio::class => PortfolioPolicy::class,
+        Dividend::class => DividendPolicy::class
     ];
 
     /**
