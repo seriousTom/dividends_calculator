@@ -20,6 +20,11 @@ class DividendPolicy
         //
     }
 
+    public function edit(User $user, Dividend $dividend): bool
+    {
+        return $user->id == $dividend->user_id;
+    }
+
     public function delete(User $user, Dividend $dividend): bool
     {
         return $user->id == $dividend->user_id;

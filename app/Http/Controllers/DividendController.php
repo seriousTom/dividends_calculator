@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Dividend\CreateDividendRequest;
 use App\Http\Requests\Dividend\CreateMultipleDividendsRequest;
+use App\Http\Requests\Dividend\EditDividendRequest;
 use App\Http\Resources\DividendResource;
 use App\Models\Dividend;
 use App\Models\Portfolio;
 use App\Services\Dividend\StoreDividendService;
+use Illuminate\Http\Request;
 
 class DividendController extends Controller
 {
@@ -37,9 +39,11 @@ class DividendController extends Controller
         return DividendResource::collection($this->storeDividendService->storeMultiple($portfolio, $request->validated()));
     }
 
-    public function update()
+    public function update(Dividend $dividend, EditDividendRequest $request)
     {
+        $dividend->update($request->validated());
 
+        return new DividendResource($dividend);
     }
 
     public function delete(Dividend $dividend)

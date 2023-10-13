@@ -21,7 +21,9 @@ class DividendResource extends JsonResource
             'amount_after_taxes' => $this->amount - $this->taxes_amount,
             'currency' => new CurrencyResource($this->currency),
             'date' => $this->date,
-            'company' => new CompanyResource($this->company)
+            'portfolio_id' => $this->portfolio_id,
+            'company' => new CompanyResource($this->company),
+            'portfolio' => new PortfolioResource($this->whenLoaded($this->portfolio))
         ];
     }
 }
