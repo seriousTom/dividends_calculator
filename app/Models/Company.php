@@ -19,6 +19,12 @@ class Company extends Model
         'industry_id'
     ];
 
+    public function scopeWithDividendSum(Builder $builder, int $userId)
+    {
+        return $builder->selectRaw('companies.*, SUM(dividends.amount) AS dividends_sum')->leftJoin('dividends', 'dividends.company_id', 'companies.id')
+            ->where('dividends.user_id', $userId)->groupBy('companies.id');
+    }
+
     public function scopeByRequest(Builder $builder, Request $request): Builder
     {
         if (!empty($request->name)) {

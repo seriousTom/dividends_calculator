@@ -8,6 +8,7 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\DividendController;
 use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\StatisticController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('dividends/{portfolio}/create', [DividendController::class, 'storeMultiple'])->name('dividend.storeMultiple');
     Route::put('dividends/{dividend}/edit', [DividendController::class, 'update'])->name('dividend.update');
     Route::delete('dividends/{dividend}/delete', [DividendController::class, 'delete'])->name('dividend.delete');
+
+    Route::get('statistic', [\App\Http\Controllers\StatisticController::class, 'show'])->name('statistic.show');
 
     Route::get('companies', [\App\Http\Controllers\CompanyController::class, 'index'])->name('company.index');
     Route::get('currencies', [CurrencyController::class, 'index'])->name('currency.index');
