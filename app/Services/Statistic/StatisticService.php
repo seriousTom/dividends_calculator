@@ -25,7 +25,8 @@ class StatisticService
             'oldest_year' => $this->getOldestYear(),
             'all_time_total_dividends_received' => $this->getTotalDividendsReceived(),
             'all_time_most_dividends_received_from_company' => $this->getCompanyWithMostDividendsReceived($user->id),
-            'monthly_dividends' => $this->getMonthlyDividends($user->id, $year, $portfolioId, $companyId)
+            'monthly_dividends' => $this->getMonthlyDividends($user->id, $year, $portfolioId, $companyId),
+            'quarter_dividends' => $this->getQuarterDividends($year)
         ];
     }
 
@@ -38,7 +39,7 @@ class StatisticService
         return Carbon::parse($dividend->date)->year;
     }
 
-    public function getTotalDividendsReceived()
+    public function getTotalDividendsReceived(): float
     {
         return Dividend::sum('amount');
     }
@@ -48,7 +49,7 @@ class StatisticService
         return Company::withDividendSum($userId)->orderBy('dividends_sum', 'desc')->first();
     }
 
-    public function getMonthlyDividends(int $userId, ?int $year = null, ?int $portfolioId = null, ?int $companyId = null)
+    public function getMonthlyDividends(int $userId, int $year, ?int $portfolioId = null, ?int $companyId = null): array
     {
         $dividends = Dividend::byFilters([
             'user_id' => $userId,
@@ -70,7 +71,7 @@ class StatisticService
         return $statistic;
     }
 
-    private function monthlyStatisticArray()
+    private function monthlyStatisticArray(): array
     {
         $statistic = [];
 
@@ -85,5 +86,52 @@ class StatisticService
         }
 
         return $statistic;
+    }
+
+    public function getQuarterDividends(int $userId, int $year, ?int $portfolioId): array
+    {
+        $statistics = [
+            '1' => [
+                'amount' => 0,
+                'taxes_amount' => 0,
+                'amount_after_taxes' => 0
+            ],
+            '2' => [
+                'amount' => 0,
+                'taxes_amount' => 0,
+                'amount_after_taxes' => 0
+            ],
+            '3' => [
+                'amount' => 0,
+                'taxes_amount' => 0,
+                'amount_after_taxes' => 0
+            ],
+            '4' => [
+                'amount' => 0,
+                'taxes_amount' => 0,
+                'amount_after_taxes' => 0
+            ],
+        ];
+
+        for($quarter = 1; $quarter <= 4; $quarter++) {
+            $startMonth = ($quarter - 1) * 3 + 1;
+            $endMonth = $quarter * 3;
+
+            $dividends = Dividend::byFilters([
+                'year' => $year,
+                'start_month' => $startMonth,
+                'end_month' => $endMonth,
+                'user_id' => $userId,
+                'portfolio_id' => $portfolioId
+            ])->get();
+
+            foreach ($dividends as $dividend) {
+                $statistics[$quarter]['amount'] += $dividend->amount;
+                $statistics[$quarter]['taxes_amount'] += $dividend->taxes_amount;
+                $statistics[$quarter]['amount_after_taxes'] += $dividend->amount_after_taxes;
+            }
+        }
+
+        return $statistics;
     }
 }

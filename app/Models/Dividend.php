@@ -61,6 +61,14 @@ class Dividend extends Model
             $builder->whereYear('date', $filters['year']);
         }
 
+        if(!empty($filters['start_month'])) {
+            $builder->whereMonth('date', '>=', $filters['start_month']);
+        }
+
+        if(!empty($filters['end_month'])) {
+            $builder->whereMonth('date', '<=', $filters['end_month']);
+        }
+
         return $builder;
     }
 
