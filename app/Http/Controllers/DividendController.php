@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Dividend\CreateDividendRequest;
 use App\Http\Requests\Dividend\CreateMultipleDividendsRequest;
 use App\Http\Requests\Dividend\EditDividendRequest;
+use App\Http\Requests\Dividend\FetchDividendsRequest;
 use App\Http\Resources\DividendResource;
 use App\Models\Dividend;
 use App\Models\Portfolio;
@@ -18,9 +19,10 @@ class DividendController extends Controller
 
     }
 
-    public function index(?Portfolio $portfolio = null)
+    public function index(?Portfolio $portfolio = null, FetchDividendsRequest $fetchDividendsRequest)
     {
-        $dividends = Dividend::byPortfolio($portfolio)->orderBy('created_at', 'desc')->paginate(10);
+        $dividends = Dividend::byFilters(array_merge(['portfolio_id' => $portfolio->id], $fetchDividendsRequest->validated()))->paginate(10);
+//        $dividends = Dividend::byPortfolio($portfolio, $fetchDividendsRequest->validated())->orderBy('created_at', 'desc')->paginate(10);
 
         return DividendResource::collection($dividends);
     }

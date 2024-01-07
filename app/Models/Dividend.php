@@ -21,7 +21,7 @@ class Dividend extends Model
         'portfolio_id',
         'date'
     ];
-    protected $appends = ['amount_after_taxes'];
+//    protected $appends = ['amount_after_taxes'];
 
     protected static function booted()
     {
@@ -38,13 +38,16 @@ class Dividend extends Model
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
 
-    public function getAmountAfterTaxesAttribute()
-    {
-        return $this->amount - $this->taxes_amount;
-    }
+//    public function getAmountAfterTaxesAttribute()
+//    {
+//        return $this->amount - $this->taxes_amount;
+//    }
 
     public function scopeByFilters(Builder $builder, array $filters = [])
     {
+        $builder->selectRaw('dividends.*, companies.name AS company_name, (dividends.amount - dividends.taxes_amount) AS amount_after_taxes')
+            ->join('companies', 'companies.id', 'dividends.company_id');
+
         if(!empty($filters['user_id'])) {
             $builder->withoutGlobalScope(UserScope::class)->where('user_id', $filters['user_id']);
         }
@@ -69,13 +72,29 @@ class Dividend extends Model
             $builder->whereMonth('date', '<=', $filters['end_month']);
         }
 
+        if(!empty($filters['date_from']) && empty($filters['date_to'])) {
+            $builder->where('date', '>=', $filters['date_from']);
+        } else if(empty($filters['date_from']) && !empty($filters['date_to'])) {
+            $builder->where('date', '<=', $filters['date_to']);
+        } else if(!empty($filters['date_from']) && !empty($filters['date_to'])) {
+            $builder->whereBetween('date', [$filters['date_from'], $filters['date_to']]);
+        }
+
+        if(!empty($filters['order_by']) && !empty($filters['order'])) {
+            $builder->orderBy($filters['order_by'], $filters['order']);
+        }
+
         return $builder;
     }
 
-    public function scopeByPortfolio(Builder $builder, ?Portfolio $portfolio = null): Builder
+    public function scopeByPortfolio(Builder $builder, ?Portfolio $portfolio = null, array $filters): Builder
     {
-        if (!empty($portfolio)) {
+        if (!empty($portfolio->id)) {
             $builder->where('portfolio_id', $portfolio->id);
+        }
+
+        if(!empty($filters['order_by']) && !empty($filters['order'])) {
+            $builder->orderBy($filters['order_by'], $filters['order']);
         }
 
         return $builder;

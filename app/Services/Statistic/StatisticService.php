@@ -10,6 +10,8 @@ use Carbon\Carbon;
 
 class StatisticService
 {
+    //todo: implement currency conversion. As for now works only with dollars or at least with the same currency
+
     public function getStatistic(?User $user = null, ?int $year = null, ?int $portfolioId = null, ?int $companyId = null): array
     {
         if (empty($year)) {
@@ -24,9 +26,11 @@ class StatisticService
             'year' => $year,
             'oldest_year' => $this->getOldestYear(),
             'all_time_total_dividends_received' => $this->getTotalDividendsReceived(),
+            'total_dividends_received_in_year' => $this->getTotalDividendsReceivedInYear($year),
             'all_time_most_dividends_received_from_company' => $this->getCompanyWithMostDividendsReceived($user->id),
+            'most_dividends_received_from_company_in_year' => $this->getCompanyWithMostDividendsReceivedInYear($user->id, $year),
             'monthly_dividends' => $this->getMonthlyDividends($user->id, $year, $portfolioId, $companyId),
-            'quarter_dividends' => $this->getQuarterDividends($year)
+            'quarter_dividends' => $this->getQuarterDividends($user->id, $year, $portfolioId)
         ];
     }
 
@@ -44,9 +48,19 @@ class StatisticService
         return Dividend::sum('amount');
     }
 
+    public function getTotalDividendsReceivedInYear(int $year): float
+    {
+        return Dividend::whereYear('date', $year)->sum('amount');
+    }
+
     public function getCompanyWithMostDividendsReceived(int $userId)
     {
         return Company::withDividendSum($userId)->orderBy('dividends_sum', 'desc')->first();
+    }
+
+    public function getCompanyWithMostDividendsReceivedInYear(int $userId, int $year)
+    {
+        return Company::withDividendSum($userId, $year)->orderBy('dividends_sum', 'desc')->first();
     }
 
     public function getMonthlyDividends(int $userId, int $year, ?int $portfolioId = null, ?int $companyId = null): array
@@ -78,7 +92,7 @@ class StatisticService
         for($i = 1; $i <= 12; $i++) {
             $statistic[$i] = [
                 'month' => $i,
-                'month_string' => GeneralHelper::monthString($i),
+                'label' => GeneralHelper::monthString($i),
                 'amount' => 0,
                 'taxes_amount' => 0,
                 'amount_after_taxes' => 0
@@ -92,21 +106,25 @@ class StatisticService
     {
         $statistics = [
             '1' => [
+                'label' => '1 Quarter',
                 'amount' => 0,
                 'taxes_amount' => 0,
                 'amount_after_taxes' => 0
             ],
             '2' => [
+                'label' => '2 Quarter',
                 'amount' => 0,
                 'taxes_amount' => 0,
                 'amount_after_taxes' => 0
             ],
             '3' => [
+                'label' => '3 Quarter',
                 'amount' => 0,
                 'taxes_amount' => 0,
                 'amount_after_taxes' => 0
             ],
             '4' => [
+                'label' => '4 Quarter',
                 'amount' => 0,
                 'taxes_amount' => 0,
                 'amount_after_taxes' => 0
