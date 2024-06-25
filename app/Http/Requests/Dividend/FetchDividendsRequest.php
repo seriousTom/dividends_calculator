@@ -24,6 +24,7 @@ class FetchDividendsRequest extends FormRequest
     public function rules()
     {
         return [
+            'company_id' => 'nullable|numeric|exists:companies,id',
             'date_from' => 'nullable|date',
             'date_to' => 'nullable|date',
             'order' => 'nullable|required_with:order_by|in:asc,desc',

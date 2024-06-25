@@ -37,6 +37,10 @@ class Company extends Model
             $builder = $builder->where('name', 'like', '%' . $request->name . '%');
         }
 
+        if (!empty($request->company_id)) {
+            $builder = $builder->where('id', $request->company_id);
+        }
+
         return $builder;
     }
 }
