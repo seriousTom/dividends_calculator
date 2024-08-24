@@ -6,38 +6,26 @@ services:
         container_name: dividends_calculator_web
         tty: true
         working_dir: /var/www/html
-        depends_on: # changes order in which to create containers
-            - redis
         volumes:
             - .:/var/www/html
-            - ./Docker/php/etc/supervisor/conf.d/:/etc/supervisor/conf.d/
-        environment:
-            DB_HOST: mariadb
-            REDIS_HOST: dividends_calculator_redis
-            REDIS_PORT: 6371
-        networks:
-            dividends_calculator:
 
     mariadb:
-        build: ./Docker/mysql
+        image: mariadb
+#        build: ./Docker/mysql
         container_name: dividends_calculator_db
-        restart: unless-stopped
-        ports:
-            - 3309:3306
         volumes:
             - ./Docker/data/db:/var/lib/mysql/
         environment:
             TZ: "Europe/Vilnius"
-            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD?err}
             MYSQL_USER: ${DB_USERNAME?err}
             MYSQL_PASSWORD: ${DB_PASSWORD?err}
             MYSQL_DATABASE: ${DB_DATABASE?err}
-        networks:
-            dividends_calculator:
 
     nginx:
-        build: ./Docker/nginx
+        image: nginx
+#        build: ./Docker/nginx
         container_name: dividends_calculator_nginx
         working_dir: /var/www/html
         restart: unless-stopped
@@ -46,25 +34,9 @@ services:
         ports:
             # localPort:dockerPort
             - "8082:80"
-            - "446:443"
         volumes:
             - .:/var/www/html
-            - ./Docker/nginx/conf.local/:/etc/nginx/conf.d/
-            - ./Docker/nginx/certs.local/:/etc/nginx/certs/
-        networks:
-            dividends_calculator:
-
-
-    redis:
-        image: redis:latest
-        restart: unless-stopped
-        container_name: dividends_calculator_redis
-        ports:
-            - "6371:6379"
-        volumes:
-            - ./Docker/data/redis:/data
-        networks:
-            - dividends_calculator
+            - ./Docker/nginx/conf.d/:/etc/nginx/conf.d/
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -76,8 +48,6 @@ services:
         environment:
             UPLOAD_LIMIT: 300M
             PMA_ARBITRARY: 1
-        networks:
-            dividends_calculator:
 
     frontend:
         build:
@@ -93,9 +63,5 @@ services:
             - /app/.nuxt
         stdin_open: true
         tty: true
-
-networks:
-    dividends_calculator:
-        driver: bridge
 volumes:
     mariadb:
