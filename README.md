@@ -1,4 +1,4 @@
-#Dividend calculator (backend)
+# Dividend calculator (backend)
 
 **This is the backend of the Dividend Calculator project. The frontend can be found [here](https://github.com/seriousTom/dividends_calculator_front)**
 
