@@ -1,4 +1,4 @@
-#Dividend calculator (backend)
+# Dividend calculator (backend)
 
 **This is the backend of the Dividend Calculator project. The frontend can be found [here](https://github.com/seriousTom/dividends_calculator_front)**
 
@@ -8,9 +8,9 @@ It's a dummy project that I built to learn Nuxt JS, Docker and deployment stuff 
 
 Any feedback about what might be improved would be appreciated.
 
-##How to start project
+## How to start project
 
-###Using docker-compose
+### Using docker-compose
 
 1. Git clone both frontend and backed repositories into the same folder next to each other like that your_folder/dividends_calculator and your_folder/dividends_calculator_front (if your change folders name then you will have to edit docker-compose file too).
     - Frontend repository [here](https://github.com/seriousTom/dividends_calculator_front)
