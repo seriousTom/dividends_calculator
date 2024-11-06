@@ -31,14 +31,17 @@ class Company extends Model
         return $builder->groupBy('companies.id');
     }
 
-    public function scopeByRequest(Builder $builder, Request $request): Builder
+    public function scopeByRequest(Builder $builder, array $request): Builder
     {
-        if (!empty($request->name)) {
-            $builder = $builder->where('name', 'like', '%' . $request->name . '%');
+        if (!empty($request['name'])) {
+            $builder = $builder->whereAny([
+                'name',
+                'ticker',
+            ], 'like', '%' . $request['name'] . '%');
         }
 
-        if (!empty($request->company_id)) {
-            $builder = $builder->where('id', $request->company_id);
+        if (!empty($request['company_id'])) {
+            $builder = $builder->where('id', $request['company_id']);
         }
 
         return $builder;
