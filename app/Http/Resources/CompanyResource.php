@@ -18,6 +18,7 @@ class CompanyResource extends JsonResource
         return [
             'id' => !empty($this['id']) ? $this['id'] : null,
             'name' => $this['name'],
+            'search_title' => $this['name'] . ', ' . $this['ticker'],
             'ticker' => $this['ticker'],
             'sector_id' => !empty($this['sector_id']) ? $this['sector_id'] : null,
             'industry_id' => !empty($this['industry_id']) ? $this['industry_id'] : null,

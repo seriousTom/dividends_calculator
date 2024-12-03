@@ -49,7 +49,7 @@ class Dividend extends Model
             ->join('companies', 'companies.id', 'dividends.company_id');
 
         if(!empty($filters['user_id'])) {
-            $builder->withoutGlobalScope(UserScope::class)->where('user_id', $filters['user_id']);
+            $builder->withoutGlobalScope(UserScope::class)->where('dividends.user_id', $filters['user_id']);
         }
 
         if(!empty($filters['portfolio_id'])) {

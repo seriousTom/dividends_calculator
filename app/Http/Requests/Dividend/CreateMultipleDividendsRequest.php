@@ -25,7 +25,10 @@ class CreateMultipleDividendsRequest extends FormRequest
     {
         return [
             'dividends' => 'required',
-            'dividends.*.company_id' => 'required|exists:companies,id',
+            'dividends.*.company.external' => 'required|boolean',
+            'dividends.*.company.id' => 'required_if:dividends.*.company.external,false|nullable|exists:companies,id',
+            'dividends.*.company.name' => 'required_if:dividends.*.company.external,false',
+            'dividends.*.company.ticker' => 'required_if:dividends.*.company.external,false',
             'dividends.*.amount' => 'required|numeric',
             'dividends.*.taxes_amount' => 'nullable|numeric',
             'dividends.*.currency_id' => 'required|exists:currencies,id',
