@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,8 +17,14 @@ class Company extends Model
         'name',
         'ticker',
         'sector_id',
-        'industry_id'
+        'industry_id',
+        'user_id'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new UserScope);
+    }
 
     public function scopeWithDividendSum(Builder $builder, int $userId, ?int $year = null): Builder
     {

@@ -40,7 +40,6 @@ class CreateCompanyService
         if(!$data['success']) {
             return ['success' => false, 'message' => __('Couldn`t fetch company data from API')];
         }
-
         $sector = Sector::firstOrCreate([
             'name' => $data['data']['Sector']
         ]);

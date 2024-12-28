@@ -48,9 +48,13 @@ class CompanyApiService
             if ($response->getStatusCode() === 200) {
                 $data = json_decode($response->getBody(), true);
 
+                if(empty($data)) {
+                    return ['success' => false, 'message' => __('Company data was not found.')];
+                }
+
                 return ['success' => true, 'data' => $data];
             } else {
-                return ['success' => false, 'message' => 'Failed to fetch data from Alpha Vantage. Status code: ' . $response->getStatusCode()];
+                return ['success' => false, 'message' => __('Failed to fetch data from Alpha Vantage. Status code: ') . $response->getStatusCode()];
             }
         } catch (\Exception $e) {
             return ['success' => false, 'message' => $e->getMessage()];

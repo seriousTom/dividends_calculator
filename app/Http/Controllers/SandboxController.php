@@ -15,6 +15,7 @@ class SandboxController extends Controller
     public function searchCompanies()
     {
         $cas = app()->make(CompanyApiService::class);
-        dd($cas->searchCompanies('aapl'));
+//        dd($cas->searchCompanies('aapl'));
+        dd($cas->getCompanyData('MCDC'));
     }
 }

@@ -19,10 +19,12 @@ class StoreDividendService
 
         foreach ($dividends['dividends'] as $dividend) {
             if($dividend['company']['external']) {
-                $this->createCompanyService->storeCompany($dividend['company'], $portfolio->user_id);
+                $company = $this->createCompanyService->storeCompany($dividend['company'], $portfolio->user_id);
+                $dividend['company']['id'] = $company->id;
             }
             $dividend['portfolio_id'] = $portfolio->id;
             $dividend['user_id'] = $portfolio->user_id;
+            $dividend['company_id'] = $dividend['company']['id'];
             $createdDividends->push(Dividend::create($dividend));
         }
 

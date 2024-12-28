@@ -18,10 +18,12 @@ class CompanyController extends Controller
 
     public function index(Request $request)
     {
-        $companies = new Collection();
         if(!empty($request->name)) {
             $companies = $this->searchCompanyService->searchCompanies($request->name);
+        } else {
+            $companies = Company::orderBy('name', 'asc')->get();
         }
+
         return CompanyResource::collection($companies);
     }
 }
