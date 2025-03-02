@@ -16,7 +16,9 @@ class PlatformResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            'file_path' => !empty($this->file_example_path) ? asset('examples/' . $this->file_example_path) : null,
+            'file_name' => !empty($this->file_example_path) ? basename($this->file_example_path) : null
         ];
     }
 }
